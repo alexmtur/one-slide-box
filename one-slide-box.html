@@ -1,0 +1,173 @@
+<link rel="import" href="../polymer/polymer.html">
+<dom-module id="one-slide-box">
+  <template>
+    <style>
+        :host {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            background: none;
+            min-width: 50px;
+            min-height: 50px;
+        }
+        :host:not([arrows]) #previousButton, :host:not([arrows]) #nextButton {
+           display: none !important;
+        }
+        :host:not([bullets]) #bullets {
+           display: none !important;
+        }
+        #content > ::slotted(*) {
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        #content > ::slotted([selected]) {
+             opacity: 1;
+             position: relative;
+        }
+        #content > ::slotted(:not([selected])) {
+        }
+        button {
+            position: absolute;
+            top: calc(50% - 20px);
+            padding: 0;
+            line-height: 40px;
+            border: none;
+            background: none;
+            color: #DDD;
+            font-size: 40px;
+            font-weight: bold;
+            opacity: 0.7;
+            z-index: 200;
+        }
+        button:hover, button:focus {
+            opacity: 1;
+        }
+        #previousButton {
+            left: 12px;
+        }
+        #nextButton {
+            right: 12px;
+        }
+        button[disabled] {
+            opacity: 0.4;
+        }
+        #bullets {
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .bullet {
+            opacity: 0.3;
+            cursor: pointer;
+            font-size: 25px;
+            padding: 5px;
+            z-index: 100;
+        }
+        .bullet:hover {
+            opacity: 0.8;
+        }
+        .bullet[selected] {
+            opacity: 1.0;
+        }
+    </style>
+
+    <div id="content">
+        <slot></slot>
+    </div>
+    
+    <button id="previousButton" on-click="previous">&#x276E;</button>
+    <button id="nextButton" on-click="next">&#x276F;</button>
+    <div id="bullets">
+        <template is="dom-repeat" items="{{bulletArray}}" >
+            <div data-index$="{{index}}" on-click="selectBullet" class="bullet" selected$="{{isSelected(index)}}">
+            &#9679;</div>
+        </template>
+    </div>
+
+  </template>
+
+  <script>
+  Polymer({
+    is: "one-slide-box",
+    properties: {
+        // width: {
+        //     type: String,
+        //     value: "100%",
+        // },
+        // height: {
+        //     type: String,
+        //     value: "auto"
+        // },
+        // aspectRatio: {
+        //     type: String,
+        //     value: ""
+        // },
+        transitionDuration: {
+            type: Number,
+        },
+        endlessTransition: {
+            type: Boolean,
+            value: false,
+        },
+        bullets: { //bulletsOn and arrowsOn?
+            type: Boolean,
+            value: false
+        },
+        arrows: {
+            type: Number,
+            value: false
+        },
+        selectedIndex: {
+            type: Number,
+            value: 0,
+            observer: '_selectedIndexChanged'
+        },
+    },
+
+    // add a callback to the element's prototype
+    ready: function() {
+        this.bulletArray = new Array(this.$.content.childElementCount);
+        if(this.transitionDuration)
+            setInterval(_ => this.next(), this.transitionDuration);
+    },
+    next: function() {
+        if (this.selectedIndex < this.$.content.childElementCount - 1) {
+            this.selectedIndex += 1;
+        } else if(this.endlessTransition) {
+            this.selectedIndex = 0;
+        }
+    },
+    previous: function() {
+        if (this.selectedIndex) {
+            this.selectedIndex -= 1;
+        } else if(this.endlessTransition) {
+            this.selectedIndex = this.$.content.childElementCount - 1;
+        }
+    },
+    _selectedIndexChanged(selectedIndex, oldSelectedIndex) {
+        if(selectedIndex >= 0) {
+            this.$.content.children[selectedIndex].setAttribute('selected', '');
+            this.$.bullets.children[selectedIndex].setAttribute('selected', '');
+        }
+        if(oldSelectedIndex >= 0) {
+            this.$.content.children[oldSelectedIndex].removeAttribute('selected');
+            this.$.bullets.children[oldSelectedIndex].removeAttribute('selected');
+        }
+        if(!this.endlessTransition) {
+            this.$.nextButton.disabled = (selectedIndex === this.$.content.childElementCount - 1);
+            this.$.previousButton.disabled = (selectedIndex === 0);        
+        }
+    },
+    isSelected: function(index) {
+        return index == this.selectedIndex;
+    },
+    selectBullet: function(e) {
+        this.selectedIndex = Number(e.target.dataset.index);
+    },
+  });
+</script>
+</dom-module>
