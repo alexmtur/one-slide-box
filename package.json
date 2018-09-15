@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "@alexmtur/one-class": "^3.2.4",
+    "npm": "^6.4.1"
+  },
+  "name": "one-slide-box",
+  "version": "3.0.1",
+  "description": "",
+  "main": "one-slide-box.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexmtur/one-slide-box.git"
+  },
+  "author": "Alex <alexmartinturrillas@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexmtur/one-slide-box/issues"
+  },
+  "homepage": "https://github.com/alexmtur/one-slide-box#readme"
+}

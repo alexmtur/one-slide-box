@@ -1,0 +1,44 @@
+<!-- Execute polymer serve on the file's folder and open http://localhost:8080/components/one-modal/test.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+<script type="module">
+    import {OneSlideBox} from "./one-slide-box.js"
+    import {OneClass, html} from "@alexmtur/one-class"
+
+    class MyTest extends OneClass {
+        static get properties() {return {
+            open1: Boolean,
+            };
+        }
+
+      constructor() {
+        super();
+        this.open1 = false;
+      }
+
+    _render() {return html`
+        <one-slide-box arrows bullets endlessTransition style="margin: 50px 0 50px 0; border: 1px solid black"><img src="https://via.placeholder.com/350x350/ff0000/00ffff"><img src="https://via.placeholder.com/150x350/00ff00/ff00ff"><img src="https://via.placeholder.com/350x150/0000ff/ffff00"></one-slide-box>
+        <button on-click=${(e)=>{this.id('slideBox2').next()}}>Next</button>
+        <button on-click=${(e)=>{this.id('slideBox2').previous()}}>Previous</button>
+        <one-slide-box id="slideBox2"><img src="https://via.placeholder.com/450x150/ff0000/00ffff"><img src="https://via.placeholder.com/450x150/00ff00/ff00ff"><img src="https://via.placeholder.com/450x150/0000ff/ffff00"></one-slide-box>
+        
+        `;
+      } 
+    }
+    customElements.define('my-test', MyTest);
+</script>
+
+</head>
+<body>
+    <my-test></my-test>
+</body>
+</html>
+
+
+
+
