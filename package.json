@@ -4,7 +4,7 @@
     "npm": "^6.4.1"
   },
   "name": "one-slide-box",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "",
   "main": "one-slide-box.js",
   "scripts": {

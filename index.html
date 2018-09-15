@@ -25,7 +25,7 @@
         <one-slide-box arrows bullets endlessTransition style="margin: 50px 0 50px 0; border: 1px solid black"><img src="https://via.placeholder.com/350x350/ff0000/00ffff"><img src="https://via.placeholder.com/150x350/00ff00/ff00ff"><img src="https://via.placeholder.com/350x150/0000ff/ffff00"></one-slide-box>
         <button on-click=${(e)=>{this.id('slideBox2').next()}}>Next</button>
         <button on-click=${(e)=>{this.id('slideBox2').previous()}}>Previous</button>
-        <one-slide-box id="slideBox2"><img src="https://via.placeholder.com/450x150/ff0000/00ffff"><img src="https://via.placeholder.com/450x150/00ff00/ff00ff"><img src="https://via.placeholder.com/450x150/0000ff/ffff00"></one-slide-box>
+        <one-slide-box id="slideBox2" transitionDuarion="500"><img src="https://via.placeholder.com/450x150/ff0000/00ffff"><img src="https://via.placeholder.com/450x150/00ff00/ff00ff"><img src="https://via.placeholder.com/450x150/0000ff/ffff00"></one-slide-box>
         
         `;
       } 
