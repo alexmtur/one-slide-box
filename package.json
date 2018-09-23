@@ -3,8 +3,8 @@
     "@alexmtur/one-class": "^3.2.4",
     "npm": "^6.4.1"
   },
-  "name": "one-slide-box",
-  "version": "3.0.2",
+  "name": "@alexmtur/one-slide-box",
+  "version": "3.0.3",
   "description": "",
   "main": "one-slide-box.js",
   "scripts": {

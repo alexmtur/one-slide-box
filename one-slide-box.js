@@ -8,9 +8,11 @@ export class OneSlideBox extends OneClass {
         transitionDuration: Number,
         endlessTransition: Boolean,
         //bullets: Boolean,
-        bulletArray: Array,
+        //bulletArray: Array,
         //arrows:  Number,
         selectedIndex: Number,
+        bulletNumber: Number, //use it to read the bullet number
+
     }}
     constructor() {
         super(); 
@@ -18,6 +20,7 @@ export class OneSlideBox extends OneClass {
         //this.bullets = false;
         //this.arrows = false;
         this.selectedIndex = 0;
+        this.bulletNumber = 0;
         this.bulletArray = [''];
     }
     _propertiesChanged(props, changedProps, prevProps) {
@@ -25,8 +28,9 @@ export class OneSlideBox extends OneClass {
         if(changedProps['selectedIndex'] >= 0) {
             let selectedIndex = changedProps['selectedIndex'];
             let oldSelectedIndex = prevProps['selectedIndex'];
+            this.bulletNumber = this.id('content').children[0].assignedNodes().length;
             if(!this.endlessTransition) {
-                this.id('nextButton').disabled = (selectedIndex === this.id('content').children[0].assignedNodes().length - 1);
+                this.id('nextButton').disabled = (selectedIndex === this.bulletNumber - 1);
                 this.id('previousButton').disabled = (selectedIndex === 0);        
             }
             this.id('content').children[0].assignedNodes()[selectedIndex].setAttribute('selected', '');
@@ -43,17 +47,19 @@ export class OneSlideBox extends OneClass {
             setInterval(_ => this.next(), this.transitionDuration);
     }
     next() {
-        if (this.selectedIndex < this.id('content').children[0].assignedNodes().length - 1) {
+        this.bulletNumber = this.id('content').children[0].assignedNodes().length;
+        if (this.selectedIndex < this.bulletNumber - 1) {
             this.selectedIndex += 1;
         } else if(this.endlessTransition) {
             this.selectedIndex = 0;
         }
     }
     previous() {
+        this.bulletNumber = this.id('content').children[0].assignedNodes().length;
         if (this.selectedIndex) {
             this.selectedIndex -= 1;
         } else if(this.endlessTransition) {
-            this.selectedIndex = this.id('content').children[0].assignedNodes().length - 1;
+            this.selectedIndex = this.bulletNumber - 1;
         }
     }
     isSelected(index) {
